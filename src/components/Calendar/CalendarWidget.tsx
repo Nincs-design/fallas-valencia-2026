@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppStore } from '@/stores/useAppStore';
 import { eventsData } from '@/data/events';
-import './CalendarWidget.css';
+import './Calendar.css';
 
 export const CalendarWidget: React.FC = () => {
   const selectedDay = useAppStore(state => state.selectedDay);
