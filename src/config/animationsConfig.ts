@@ -1,5 +1,5 @@
 // src/config/animationsConfig.ts
-import { AnimationConfig, AnimationType } from '@/types/animations';
+import { AnimationConfig } from '@/types/animations';
 
 /**
  * Configuración central de todas las animaciones
@@ -129,7 +129,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
       // 19 Marzo - Infantiles
       { startDate: '2026-03-19', endDate: '2026-03-19', startTime: '20:00', duration: 120, target: 'infantil' },
       // 19 Marzo - Adultas
-      { startDate: '2026-03-19', endDate: '2026-03-19', startTime: '22:00', duration: 180, target: 'adulta' }
+      { startDate: '2026-03-19', endDate: '2026-03-19', startTime: '22:00', duration: 180, target: 'grande' }
     ],
     visual: {
       type: 'fire-burn',
@@ -398,7 +398,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     },
     schedule: [
       { startDate: '2026-03-15', endDate: '2026-03-15', startTime: '09:00', duration: 1440, target: 'infantil' },
-      { startDate: '2026-03-16', endDate: '2026-03-16', startTime: '08:00', duration: 1440, target: 'adulta' }
+      { startDate: '2026-03-16', endDate: '2026-03-16', startTime: '08:00', duration: 1440, target: 'grande' }
     ],
     visual: {
       type: 'scale-in',

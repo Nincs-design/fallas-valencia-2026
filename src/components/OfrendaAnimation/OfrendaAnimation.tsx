@@ -260,8 +260,8 @@ export const OfrendaAnimation: React.FC<OfrendaAnimationProps> = ({
         const x = (Math.random() - 0.5) * 24;
         const y = 25 - (Math.random() * fillHeight);
         
-        const types = ['white', 'red', 'yellow', 'multicolor'];
-        const type = types[Math.floor(Math.random() * types.length)] as any;
+        const types: Array<'white' | 'red' | 'yellow' | 'multicolor'> = ['white', 'red', 'yellow', 'multicolor'];
+        const type = types[Math.floor(Math.random() * types.length)];
         const colors = flowerColors[type];
         
         let r = colors.r, g = colors.g, b = colors.b;

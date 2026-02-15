@@ -5,7 +5,8 @@ export interface Falla {
   name: string;
   lat: number;
   lng: number;
-  category: 'Municipal' | 'Especial' | 'Experimental' | 'Primera' | 'Segunda' | 'Tercera' | 'CategoriaA' | 'CategoriaB' | 'EspecialInfantil';
+  address?: string;
+  category: 'Municipal' | 'Especial' | 'Experimental' | 'Primera' | 'Segunda' | 'Tercera' | 'CategoriaA' | 'CategoriaB' | 'EspecialInfantil' | 'Evento';
   theme: string;
   facts: string;
   artist?: string;
@@ -23,7 +24,7 @@ export interface Event {
   name: string;
   time: string;
   description: string;
-  animation: 'cabalgata' | 'ofrenda' | 'mascletà' | 'cremà';
+  animation: string;
 }
 
 export interface EventsData {

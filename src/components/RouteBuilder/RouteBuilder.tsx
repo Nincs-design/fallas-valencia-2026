@@ -4,9 +4,9 @@ import { useAppStore } from '@/stores/useAppStore';
 import { routeOptimizer } from '@/services/routeOptimizer';
 import { RouteExportService } from '@/services/routeExportService';
 import { RouteShareService } from '@/services/routeShareService';
-import { inAppNavigationService } from '@/services/inAppNavigationService';
 import { TransportModeSelector } from '@/components/TransportModeSelector';
 import { fallasData } from '@/data/fallas';
+import type { RouteStop } from '@/types';
 import './RouteBuilder.css';
 
 export const RouteBuilder = () => {
@@ -174,7 +174,7 @@ export const RouteBuilder = () => {
     showNotification('🧭 Iniciando navegación...');
   };
 
-  const displayRoute = optimizedRoute.length > 0 ? optimizedRoute : selectedRoute;
+  const displayRoute = (optimizedRoute.length > 0 ? optimizedRoute : selectedRoute) as RouteStop[];
   const stats = optimizedRoute.length > 0 ? routeOptimizer.getRouteStats(optimizedRoute) : null;
 
   return (
@@ -211,7 +211,7 @@ export const RouteBuilder = () => {
                       <div className="route-item-meta">
                         {'distanceFromPrevious' in location && location.distanceFromPrevious ? (
                           <>
-                            📍 {location.distanceFromPrevious.toFixed(2)} km · 
+                            📍 {(location.distanceFromPrevious as number).toFixed(2)} km · 
                             ⏱️ {location.estimatedWalkingTime} min
                           </>
                         ) : (

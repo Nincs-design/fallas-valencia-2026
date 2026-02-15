@@ -8,6 +8,7 @@ export const fallasData: Falla[] = fallasCompleto.fallas.map((falla: any) => ({
   name: falla.name,
   lat: falla.lat,
   lng: falla.lng,
+  address: falla.address || falla.name,
   category: getCategoryFromSeccion(falla.category),
   theme: falla.theme,
   facts: generateFacts(falla),
@@ -20,8 +21,8 @@ export const fallasData: Falla[] = fallasCompleto.fallas.map((falla: any) => ({
   type: falla.type
 }));
 
-// Obtener solo fallas adultas
-export const fallasAdultas = fallasData.filter(f => f.type === 'adulta');
+// Obtener solo fallas grandes (adultas)
+export const fallasAdultas = fallasData.filter(f => f.type === 'grande');
 
 // Obtener solo fallas infantiles
 export const fallasInfantiles = fallasData.filter(f => f.type === 'infantil');

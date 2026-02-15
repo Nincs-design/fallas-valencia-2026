@@ -1,5 +1,5 @@
 // src/services/routeExportService.ts
-import { Falla, RouteStop } from '@/types';
+import { RouteStop } from '@/types';
 
 export interface ExportedRoute {
   version: string;

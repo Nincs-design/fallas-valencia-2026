@@ -45,7 +45,7 @@ export const FallaPanel = () => {
     inAppNavigationService.startNavigation(
       singleStopRoute,
       userLocation,
-      (navState) => {
+      (_navState) => {
         console.log('Navegando a:', selectedFalla.name);
       }
     );

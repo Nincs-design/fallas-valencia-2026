@@ -206,7 +206,7 @@ class EventAudioManager {
    * Detener todos los sonidos
    */
   stopAll(fadeDuration: number = 500): void {
-    this.audioElements.forEach((audio, key) => {
+    this.audioElements.forEach((_audio, key) => {
       if (this.currentlyPlaying.has(key)) {
         this.stop(key as EventSoundKey, fadeDuration);
       }
@@ -240,7 +240,7 @@ class EventAudioManager {
   /**
    * Fade in de audio
    */
-  private fadeIn(audio: HTMLAudioElement, duration: number, targetVolume: number): Promise<void> {
+  private _fadeIn(audio: HTMLAudioElement, duration: number, targetVolume: number): Promise<void> {
     return new Promise(resolve => {
       audio.volume = 0;
       const steps = 20;

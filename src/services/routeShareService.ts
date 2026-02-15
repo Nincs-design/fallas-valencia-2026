@@ -17,10 +17,6 @@ export class RouteShareService {
    * Genera URL corta para compartir (simulado, idealmente usar bit.ly API)
    */
   static async generateShortURL(route: RouteStop[]): Promise<string> {
-    const fullUrl = this.generateShareURL(route);
-    
-    // En producción, aquí usarías un servicio como bit.ly
-    // Por ahora simulamos la URL corta
     const routeHash = this.hashRoute(route);
     return `${window.location.origin}/r/${routeHash}`;
   }

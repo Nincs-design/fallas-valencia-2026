@@ -242,7 +242,7 @@ export class AnimationEngine {
     }
   }
 
-  private replaceParticle(index: number): void {
+  private replaceParticle(_index: number): void {
     const colors = this.config.visual.colors || ['#FF4500'];
     
     if (this.config.visual.type === 'fire-burn') {

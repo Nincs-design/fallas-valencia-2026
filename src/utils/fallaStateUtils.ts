@@ -1,10 +1,10 @@
 // src/utils/fallaStateUtils.ts
 
 export type FallaState = 
-  | 'pre-construction'    // Antes de Plantà
-  | 'active'              // Durante Fallas (post-Plantà, pre-Cremà)
-  | 'burning'             // Durante Cremà
-  | 'post-crema';         // Después de Cremà
+  | 'pre-construction'
+  | 'active'
+  | 'burning'
+  | 'post-crema';
 
 export interface FallaStateInfo {
   state: FallaState;
@@ -18,60 +18,56 @@ export interface FallaStateInfo {
  * Determina el estado de una falla basado en su tipo, día y hora actual
  */
 export const getFallaState = (
-  fallaType: 'grande' | 'infantil',
+  fallaType: 'grande' | 'infantil' | undefined,
   selectedDay: number,
   currentHour: number
 ): FallaStateInfo => {
-  // Fechas importantes
+  const resolvedType: 'grande' | 'infantil' = fallaType === 'infantil' ? 'infantil' : 'grande';
+
   const PLANTA_INFANTIL_DAY = 15;
   const PLANTA_GRANDE_DAY = 16;
   const CREMA_DAY = 19;
-  const CREMA_INFANTIL_HOUR = 20; // 20:00
-  const CREMA_GRANDE_HOUR = 22;   // 22:00
+  const CREMA_INFANTIL_HOUR = 20;
+  const CREMA_GRANDE_HOUR = 22;
 
-  // Determinar día de Plantà según tipo
-  const plantaDay = fallaType === 'infantil' ? PLANTA_INFANTIL_DAY : PLANTA_GRANDE_DAY;
-  const cremaHour = fallaType === 'infantil' ? CREMA_INFANTIL_HOUR : CREMA_GRANDE_HOUR;
+  const plantaDay = resolvedType === 'infantil' ? PLANTA_INFANTIL_DAY : PLANTA_GRANDE_DAY;
+  const cremaHour = resolvedType === 'infantil' ? CREMA_INFANTIL_HOUR : CREMA_GRANDE_HOUR;
 
-  // PRE-CONSTRUCCIÓN: Antes de la Plantà
   if (selectedDay < plantaDay) {
     return {
       state: 'pre-construction',
       icon: '⏳',
-      statusMessage: `Esta falla está en construcción. Ven a visitarla el día ${plantaDay} de marzo (Plantà ${fallaType === 'infantil' ? 'Infantiles' : 'Grandes'}).`,
-      statusColor: '#f59e0b', // Amber
+      statusMessage: `Esta falla está en construcción. Ven a visitarla el día ${plantaDay} de marzo (Plantà ${resolvedType === 'infantil' ? 'Infantiles' : 'Grandes'}).`,
+      statusColor: '#f59e0b',
       showOnMap: true
     };
   }
 
-  // BURNING: Durante la Cremà (día 19, hora de cremà)
   if (selectedDay === CREMA_DAY && currentHour >= cremaHour) {
     return {
       state: 'burning',
       icon: '🔥',
-      statusMessage: `¡Esta falla está siendo quemada en este momento! La Cremà ${fallaType === 'infantil' ? 'Infantil' : 'Grande'} está en curso.`,
-      statusColor: '#ef4444', // Red
+      statusMessage: `¡Esta falla está siendo quemada! La Cremà ${resolvedType === 'infantil' ? 'Infantil' : 'Grande'} está en curso.`,
+      statusColor: '#ef4444',
       showOnMap: true
     };
   }
 
-  // POST-CREMÀ: Después de la Cremà
   if (selectedDay > CREMA_DAY || (selectedDay === CREMA_DAY && currentHour >= cremaHour + 1)) {
     return {
       state: 'post-crema',
       icon: '⏳',
       statusMessage: 'Esta falla ya fue quemada. ¡Nos vemos de nuevo en las Fallas 2027!',
-      statusColor: '#6b7280', // Gray
+      statusColor: '#6b7280',
       showOnMap: true
     };
   }
 
-  // ACTIVE: Durante las Fallas (entre Plantà y Cremà)
   return {
     state: 'active',
-    icon: '', // Usará el icono normal de la categoría
-    statusMessage: `¡Falla activa! Puedes visitarla hasta el 19 de marzo a las ${cremaHour}:00h (Cremà ${fallaType === 'infantil' ? 'Infantil' : 'Grande'}).`,
-    statusColor: '#10b981', // Green
+    icon: '',
+    statusMessage: `¡Falla activa! Puedes visitarla hasta el 19 de marzo a las ${cremaHour}:00h.`,
+    statusColor: '#10b981',
     showOnMap: true
   };
 };
@@ -80,33 +76,28 @@ export const getFallaState = (
  * Obtiene el icono apropiado para mostrar en el mapa
  */
 export const getFallaMapIcon = (
-  fallaType: 'grande' | 'infantil',
+  fallaType: 'grande' | 'infantil' | undefined,
   category: string,
   selectedDay: number,
   currentHour: number
 ): string => {
   const stateInfo = getFallaState(fallaType, selectedDay, currentHour);
-  
-  // Si tiene icono especial de estado, usarlo
-  if (stateInfo.icon) {
-    return stateInfo.icon;
-  }
-  
-  // Sino, usar icono de categoría
+  if (stateInfo.icon) return stateInfo.icon;
   return getCategoryIcon(category, fallaType);
 };
 
 /**
- * Icono por categoría (para fallas activas)
+ * Icono por categoría
  */
-export const getCategoryIcon = (category: string, type: 'grande' | 'infantil'): string => {
-  // Infantiles tienen su propio icono
+export const getCategoryIcon = (
+  category: string,
+  type: 'grande' | 'infantil' | undefined
+): string => {
   if (type === 'infantil') {
     if (category.includes('Especial')) return '👶👑';
     return '👶';
   }
 
-  // Grandes por categoría
   const categoryIcons: Record<string, string> = {
     'Especial': '👑',
     'Primera': '🥇',
@@ -128,27 +119,43 @@ export const getCategoryIcon = (category: string, type: 'grande' | 'infantil'): 
  * Determina si una falla debe mostrar animación de fuego
  */
 export const shouldShowBurningAnimation = (
-  fallaType: 'grande' | 'infantil',
+  fallaType: 'grande' | 'infantil' | undefined,
   selectedDay: number,
   currentHour: number
 ): boolean => {
   const CREMA_DAY = 19;
   const CREMA_INFANTIL_HOUR = 20;
   const CREMA_GRANDE_HOUR = 22;
-  
-  const cremaHour = fallaType === 'infantil' ? CREMA_INFANTIL_HOUR : CREMA_GRANDE_HOUR;
-  
-  return selectedDay === CREMA_DAY && currentHour >= cremaHour && currentHour < cremaHour + 1;
+  const resolvedType = fallaType === 'infantil' ? 'infantil' : 'grande';
+  const cremaHour = resolvedType === 'infantil' ? CREMA_INFANTIL_HOUR : CREMA_GRANDE_HOUR;
+  return selectedDay === CREMA_DAY && currentHour >= cremaHour;
 };
 
 /**
- * Obtiene el color del marcador según estado
+ * Devuelve la clase CSS para el estado de la falla
  */
-export const getFallaMarkerColor = (
-  fallaType: 'grande' | 'infantil',
+export const getFallaStateClass = (
+  fallaType: 'grande' | 'infantil' | undefined,
   selectedDay: number,
   currentHour: number
 ): string => {
-  const stateInfo = getFallaState(fallaType, selectedDay, currentHour);
-  return stateInfo.statusColor;
+  const { state } = getFallaState(fallaType, selectedDay, currentHour);
+  return `falla-${state}`;
+};
+
+/**
+ * Devuelve el color del marcador según el estado
+ */
+export const getFallaMarkerColor = (
+  fallaType: 'grande' | 'infantil' | undefined,
+  selectedDay: number,
+  currentHour: number
+): string => {
+  const { state } = getFallaState(fallaType, selectedDay, currentHour);
+  switch (state) {
+    case 'pre-construction': return '#f59e0b';
+    case 'burning': return '#ef4444';
+    case 'post-crema': return '#6b7280';
+    default: return fallaType === 'infantil' ? '#10b981' : '#3b82f6';
+  }
 };

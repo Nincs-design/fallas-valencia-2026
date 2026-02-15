@@ -39,7 +39,7 @@ export class AnimationManager {
     const activeAnimations = getActiveAnimations(this.currentDate);
     
     // Detener animaciones que ya no están activas
-    this.engines.forEach((engine, id) => {
+    this.engines.forEach((_engine, id) => {
       if (!activeAnimations.find(a => a.id === id)) {
         this.stopAnimation(id);
       }
@@ -132,7 +132,7 @@ export class AnimationManager {
    * Detiene todas las animaciones
    */
   stopAll(): void {
-    this.engines.forEach((engine, id) => {
+    this.engines.forEach((_engine, id) => {
       this.stopAnimation(id);
     });
   }

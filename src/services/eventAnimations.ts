@@ -7,7 +7,7 @@ export class EventAnimationService {
   private map: LeafletMap | null = null;
   private activeMarkers: Marker[] = [];
   private activePolylines: Polyline[] = [];
-  private animationIntervals: NodeJS.Timeout[] = [];
+  private animationIntervals: ReturnType<typeof setInterval>[] = [];
 
   setMap(map: LeafletMap) {
     this.map = map;
@@ -67,7 +67,7 @@ export class EventAnimationService {
     }
   }
 
-  private createMovingFireDemon(route: LatLngExpression[], offset: number) {
+  private createMovingFireDemon(route: LatLngExpression[], _offset: number) {
     if (!this.map) return;
 
     const demonIcon = divIcon({
