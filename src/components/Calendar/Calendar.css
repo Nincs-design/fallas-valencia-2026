@@ -1,0 +1,239 @@
+/* src/components/Calendar/Calendar.css */
+
+.calendar-widget {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  background: var(--blanco);
+  padding: 16px;
+  border-radius: 0;
+  box-shadow: 8px 8px 0 var(--naranja), 16px 16px 0 var(--azul);
+  min-width: 280px;
+  border: 4px solid var(--negro);
+  animation: slideInLeft 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.calendar-header {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--azul);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Clock Mode Selector */
+.clock-mode-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mode-btn {
+  padding: 8px 12px;
+  background: var(--blanco);
+  border: 2px solid var(--negro);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.5px;
+}
+
+.mode-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 2px 0 var(--azul);
+}
+
+.mode-btn.active {
+  background: var(--verde);
+  color: var(--blanco);
+  border-color: var(--negro);
+  box-shadow: 3px 3px 0 var(--naranja);
+  transform: translateY(-2px);
+}
+
+.mode-btn:not(.active) {
+  opacity: 0.7;
+}
+
+.mode-btn:active {
+  transform: translateY(0);
+  box-shadow: 1px 1px 0 var(--negro);
+}
+
+.calendar-date {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.date-box {
+  background: var(--naranja);
+  color: var(--blanco);
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 18px;
+  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+}
+
+.day-selector {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid var(--negro);
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: var(--blanco);
+  cursor: pointer;
+  font-size: 14px;
+  max-height: 300px;
+}
+
+.day-selector optgroup {
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--azul);
+  background: #f0f0f0;
+  padding: 4px;
+}
+
+.day-selector option {
+  padding: 6px;
+  font-weight: 600;
+}
+
+.day-selector:focus {
+  outline: 2px solid var(--naranja);
+}
+
+.time-control {
+  margin-top: 12px;
+}
+
+.time-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--azul);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--naranja);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.time-slider {
+  width: 100%;
+  margin-top: 4px;
+  accent-color: var(--naranja);
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.time-slider:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  accent-color: #999;
+}
+
+.time-display {
+  text-align: center;
+  font-weight: 800;
+  color: var(--naranja);
+  margin-top: 4px;
+  font-size: 18px;
+  font-family: var(--font-display);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.time-of-day {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: 2px solid var(--negro);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.5s ease-in-out;
+}
+
+.time-of-day.day {
+  background: linear-gradient(135deg, #FFD93D, #FFA500);
+  color: var(--negro);
+  box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+  animation: dayGlow 2s ease-in-out infinite;
+}
+
+.time-of-day.night {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #FFD700;
+  box-shadow: 0 0 10px rgba(31, 81, 255, 0.5);
+  animation: nightGlow 2s ease-in-out infinite;
+}
+
+@keyframes dayGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.8), 0 0 30px rgba(255, 165, 0, 0.4);
+  }
+}
+
+@keyframes nightGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(31, 81, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(31, 81, 255, 0.8), 0 0 30px rgba(138, 43, 226, 0.4);
+  }
+}
+
+.event-indicator {
+  margin-top: 12px;
+  padding: 8px;
+  background: var(--amarillo);
+  border-left: 4px solid var(--verde);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--negro);
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .calendar-widget {
+    min-width: 240px;
+    bottom: 80px;
+    left: 10px;
+  }
+}

@@ -1,0 +1,124 @@
+/* src/components/Map/Map.css */
+
+/* Smooth transition for map style changes (day/night) */
+.leaflet-container {
+  transition: filter 0.8s ease-in-out;
+}
+
+.leaflet-tile-pane {
+  transition: opacity 0.8s ease-in-out;
+}
+
+.leaflet-tile-container {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Marker styles */
+.custom-marker {
+  width: 40px;
+  height: 40px;
+  background: var(--naranja);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  border: 3px solid var(--blanco);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.custom-marker.marker-infantil {
+  background: var(--verde);
+  clip-path: circle(50%);
+}
+
+.custom-marker.marker-experimental {
+  background: linear-gradient(135deg, var(--amarillo), var(--naranja));
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  border-color: var(--azul);
+  animation: pulse-experimental 2s infinite;
+}
+
+.custom-marker.marker-municipal {
+  background: linear-gradient(135deg, var(--azul), var(--negro));
+  clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+  border-color: var(--amarillo);
+  border-width: 4px;
+  box-shadow: 0 0 20px rgba(255, 210, 63, 0.6), 0 4px 8px rgba(0, 0, 0, 0.5);
+  animation: pulse-municipal 3s infinite;
+}
+
+@keyframes pulse-experimental {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes pulse-municipal {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 210, 63, 0.6), 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px rgba(255, 210, 63, 0.9), 0 6px 12px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.custom-marker:hover {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.route-number-marker {
+  width: 32px;
+  height: 32px;
+  background: var(--amarillo);
+  border: 3px solid var(--negro);
+  color: var(--negro);
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 0 var(--azul);
+  font-family: var(--font-display);
+}
+
+/* Override Leaflet popup styles */
+.leaflet-popup-content-wrapper {
+  background: var(--blanco);
+  border: 3px solid var(--negro);
+  box-shadow: 4px 4px 0 var(--azul);
+  border-radius: 0;
+  padding: 8px;
+}
+
+.leaflet-popup-content {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--negro);
+  margin: 8px 12px;
+}
+
+.leaflet-popup-tip {
+  background: var(--blanco);
+  border: 3px solid var(--negro);
+  border-top: none;
+  border-right: none;
+}

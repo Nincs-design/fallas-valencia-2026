@@ -1,0 +1,17 @@
+/* src/components/CabalgataAnimation/CabalgataAnimation.css */
+
+.cabalgata-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 650;
+}
+
+.cabalgata-fuego {
+  filter: drop-shadow(0 0 10px rgba(255, 100, 0, 0.8));
+}
+
+.cabalgata-ninot {
+  filter: drop-shadow(0 0 8px rgba(255, 200, 50, 0.6));
+}

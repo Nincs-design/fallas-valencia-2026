@@ -1,0 +1,17 @@
+/* src/components/OfrendaAnimation/OfrendaAnimation.css */
+
+.ofrenda-routes-canvas,
+.ofrenda-virgen-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.ofrenda-routes-canvas {
+  filter: drop-shadow(0 0 8px rgba(255, 192, 203, 0.6));
+}
+
+.ofrenda-virgen-canvas {
+  filter: drop-shadow(0 0 12px rgba(139, 69, 19, 0.7));
+}

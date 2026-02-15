@@ -1,0 +1,1 @@
+export { AnimationsControlPanel } from './AnimationsControlPanel';

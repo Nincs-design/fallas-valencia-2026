@@ -1,0 +1,46 @@
+/* src/components/Header/Header.css */
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--naranja) 0%, var(--azul) 100%);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: 3px;
+  color: var(--blanco);
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  transform: skewX(-5deg);
+  margin: 0;
+}
+
+.header-accent {
+  width: 60px;
+  height: 6px;
+  background: var(--amarillo);
+  transform: rotate(-45deg);
+  box-shadow: 2px 2px 0 var(--verde);
+}
+
+@media (max-width: 768px) {
+  .header-title {
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+  
+  .header-accent {
+    width: 40px;
+    height: 4px;
+  }
+}
