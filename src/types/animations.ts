@@ -92,6 +92,7 @@ export interface AnimationConfig {
   enabled: boolean;
   priority: number;
   description: string;
+  icon?: string;
   location: AnimationLocation;
   schedule: AnimationSchedule[];
   visual: AnimationVisual;
