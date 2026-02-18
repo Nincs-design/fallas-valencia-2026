@@ -451,7 +451,7 @@ export function getActiveAnimations(date: Date): AnimationConfig[] {
   const activeAnimations: AnimationConfig[] = [];
   
   Object.values(animationsConfig).forEach(animation => {
-    if (!animation.enabled) return;
+    // MVP: Todas las animaciones están siempre habilitadas
     
     animation.schedule.forEach(schedule => {
       const scheduleStart = new Date(schedule.startDate + ' ' + schedule.startTime);
@@ -477,30 +477,5 @@ export function getAllAnimations(): AnimationConfig[] {
   return Object.values(animationsConfig);
 }
 
-/**
- * Activar/Desactivar una animación
- */
-export function toggleAnimation(id: string, enabled: boolean): void {
-  if (animationsConfig[id]) {
-    animationsConfig[id].enabled = enabled;
-    localStorage.setItem(`animation_${id}_enabled`, enabled.toString());
-  }
-}
-
-/**
- * Obtener estado de animación desde localStorage
- */
-export function loadAnimationState(id: string): boolean {
-  const saved = localStorage.getItem(`animation_${id}_enabled`);
-  return saved !== null ? saved === 'true' : animationsConfig[id]?.enabled || true;
-}
-
-/**
- * Cargar todos los estados guardados
- */
-export function loadAllAnimationStates(): void {
-  Object.keys(animationsConfig).forEach(id => {
-    const enabled = loadAnimationState(id);
-    animationsConfig[id].enabled = enabled;
-  });
-}
+// Funciones de toggle y localStorage eliminadas en MVP
+// Las animaciones están siempre activas y no se pueden desactivar
