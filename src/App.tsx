@@ -2,16 +2,13 @@
 import { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { SearchBar } from './components/Search';
-import { AudioControl } from './components/AudioControl';
 import { MapComponent } from './components/Map';
 import { CalendarWidget } from './components/Calendar';
 import { FallaPanel } from './components/FallaPanel';
 import { RouteBuilder } from './components/RouteBuilder';
 import { FallasFilters } from './components/Filters';
-import { PredefinedRoutesGallery } from './components/PredefinedRoutes';
 import { NavigationPanel } from './components/Navigation';
 import { AnimationsLayer } from './components/Animations';
-import { AnimationsControlPanel } from './components/AnimationsControl';
 import { Loading } from './components/common/Loading';
 import { RouteShareService } from './services/routeShareService';
 import { inAppNavigationService } from './services/inAppNavigationService';
@@ -113,9 +110,6 @@ function App() {
       {!isNavigating && <FallasFilters />}
       <FallaPanel />
       {!isNavigating && <RouteBuilder />}
-      {!isNavigating && <PredefinedRoutesGallery />}
-      {!isNavigating && <AnimationsControlPanel />}
-      {!isNavigating && <AudioControl />}
       {isNavigating && <NavigationPanel onClose={handleCloseNavigation} />}
     </>
   );
