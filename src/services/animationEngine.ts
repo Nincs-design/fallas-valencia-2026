@@ -188,7 +188,14 @@ export class AnimationEngine {
   }
 
   private animate(currentTime: number): void {
-    if (!this.state.active || this.state.paused) return;
+    if (!this.state.active) return;
+
+    // Si está pausada, mostrar icono estático
+    if (this.state.paused) {
+      this.drawStaticIcon();
+      this.animationFrame = requestAnimationFrame((time) => this.animate(time));
+      return;
+    }
 
     const deltaTime = (currentTime - this.lastTime) / 16.67; // Normalizar a 60fps
     this.lastTime = currentTime;
@@ -211,6 +218,46 @@ export class AnimationEngine {
     } else {
       this.stop();
     }
+  }
+
+  private drawStaticIcon(): void {
+    this.clear();
+    
+    const ctx = this.ctx;
+    const centerX = this.canvas.width / 2;
+    const centerY = this.canvas.height / 2;
+    
+    // Dibujar círculo de fondo con efecto de pulso suave
+    const pulseSize = 80 + Math.sin(Date.now() / 500) * 5;
+    
+    ctx.save();
+    ctx.fillStyle = 'rgba(255, 107, 53, 0.2)';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, pulseSize, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Dibujar icono grande del evento
+    const icon = this.config.icon || '🎭';
+    ctx.font = 'bold 60px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#ffffff';
+    
+    // Sombra para el icono
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    
+    ctx.fillText(icon, centerX, centerY);
+    
+    // Texto "Click para más info"
+    ctx.shadowColor = 'transparent';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillStyle = '#FF6B35';
+    ctx.fillText('Click para información', centerX, centerY + 60);
+    
+    ctx.restore();
   }
 
   private updateParticles(deltaTime: number): void {

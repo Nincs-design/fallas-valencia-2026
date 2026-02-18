@@ -76,3 +76,22 @@
 .animation-confetti {
   animation: rotate-slow 2s linear infinite;
 }
+
+/* Overlay clickeable sobre animaciones */
+.animation-click-overlay {
+  position: fixed;
+  cursor: pointer;
+  z-index: 600;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.animation-click-overlay:hover {
+  background-color: rgba(255, 107, 53, 0.15) !important;
+  transform: translate(-50%, -50%) scale(1.1) !important;
+}
+
+.animation-click-overlay:active {
+  background-color: rgba(255, 107, 53, 0.25) !important;
+  transform: translate(-50%, -50%) scale(0.95) !important;
+}

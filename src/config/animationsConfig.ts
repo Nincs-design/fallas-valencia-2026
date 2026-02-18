@@ -17,6 +17,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     enabled: true,
     priority: 1,
     description: 'Explosiones de pólvora con humo de colores',
+    icon: '💥',
     location: {
       lat: 39.4699,
       lng: -0.3763,
@@ -49,6 +50,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     enabled: true,
     priority: 2,
     description: 'Flores flotando hacia la Plaza de la Virgen',
+    icon: '🌸',
     location: {
       lat: 39.4753,
       lng: -0.3750,
@@ -82,6 +84,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     enabled: true,
     priority: 3,
     description: 'Desfile de fuego y demonios',
+    icon: '🔥',
     location: {
       lat: 39.4699,
       lng: -0.3763,
@@ -160,6 +163,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     enabled: true,
     priority: 4,
     description: 'Espectáculo pirotécnico nocturno',
+    icon: '🎆',
     location: {
       lat: 39.4615,
       lng: -0.3538,
@@ -299,6 +303,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     enabled: true,
     priority: 1,
     description: 'Petardos por las calles al amanecer',
+    icon: '💥',
     location: {
       lat: 39.4699,
       lng: -0.3763,
@@ -331,6 +336,7 @@ export const animationsConfig: Record<string, AnimationConfig> = {
     enabled: true,
     priority: 2,
     description: 'Inicio monumental de las festividades',
+    icon: '🏰',
     location: {
       lat: 39.4787,
       lng: -0.3738,
