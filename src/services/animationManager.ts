@@ -1,7 +1,7 @@
 // src/services/animationManager.ts
 import { AnimationEngine } from './animationEngine';
 import { AnimationConfig, AnimationState } from '@/types/animations';
-import { getActiveAnimations, loadAllAnimationStates } from '@/config/animationsConfig';
+import { getActiveAnimations } from '@/config/animationsConfig';
 
 export class AnimationManager {
   private engines: Map<string, AnimationEngine> = new Map();
@@ -11,8 +11,9 @@ export class AnimationManager {
   private currentDate: Date = new Date();
   private callbacks: Array<(animations: AnimationState[]) => void> = [];
 
+  // MVP: Animaciones siempre activas, sin necesidad de cargar estado
   constructor() {
-    loadAllAnimationStates();
+    // loadAllAnimationStates() eliminado - todas las animaciones siempre activas
   }
 
   /**
