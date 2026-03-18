@@ -5,6 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MAPBOX_TOKEN, VALENCIA_CENTER, MAP_STYLE } from "@/lib/mapbox";
 import { fallas } from "@/data/fallas";
+import { FallaDetailSheet } from "@/components/map/FallaDetailSheet";
+import { CalendarSheet } from "@/components/map/CalendarSheet";
+import { MyRouteSheet } from "@/components/map/MyRouteSheet";
+import { FilterSheet, type FilterState } from "@/components/map/FilterSheet";
 import type { Falla } from "@/types";
 
 const MapPage: React.FC = () => {
@@ -12,14 +16,70 @@ const MapPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFalla, setSelectedFalla] = useState<Falla | null>(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  
+  // Sheet states
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [routeOpen, setRouteOpen] = useState(false);
+  
+  // Route management
+  const [route, setRoute] = useState<Falla[]>([]);
+  
+  // Filters
+  const [filters, setFilters] = useState<FilterState>({
+    categories: [],
+    showInfantil: true,
+    showGrande: true,
+    showOnlyVisited: false,
+    showOnlyFavorites: false,
+  });
 
+  // Filter fallas based on active filters
+  const filteredFallas = useMemo(() => {
+    return fallas.filter((falla: Falla) => {
+      // Type filter
+      if (!filters.showInfantil && falla.type === 'infantil') return false;
+      if (!filters.showGrande && falla.type === 'grande') return false;
+      
+      // Category filter
+      if (filters.categories.length > 0 && !filters.categories.includes(falla.category)) {
+        return false;
+      }
+      
+      return true;
+    });
+  }, [filters]);
+
+  // Search suggestions
   const suggestions = useMemo(() => {
     if (!searchQuery || searchQuery.length < 1) return [];
     const q = searchQuery.toLowerCase();
-    return fallas
-      .filter(f => f.name.toLowerCase().includes(q))
+    return filteredFallas
+      .filter((f: Falla) => f.name.toLowerCase().includes(q))
       .slice(0, 3);
-  }, [searchQuery]);
+  }, [searchQuery, filteredFallas]);
+
+  // Route handlers
+  const handleAddToRoute = (falla: Falla) => {
+    if (!route.find(f => f.id === falla.id)) {
+      setRoute(prev => [...prev, falla]);
+    }
+  };
+
+  const handleRemoveFromRoute = (fallaId: number) => {
+    setRoute(prev => prev.filter(f => f.id !== fallaId));
+  };
+
+  const handleClearRoute = () => {
+    setRoute([]);
+  };
+
+  const handleOptimizeRoute = () => {
+    // Simple optimization: sort by latitude (north to south)
+    const optimized = [...route].sort((a, b) => b.lat - a.lat);
+    setRoute(optimized);
+    console.log("Route optimized");
+  };
 
   return (
     <div className="relative h-screen w-full">
@@ -33,7 +93,7 @@ const MapPage: React.FC = () => {
       >
         <NavigationControl position="top-right" />
 
-        {fallas.map(falla => (
+        {filteredFallas.map((falla: Falla) => (
           <Marker
             key={falla.id}
             latitude={falla.lat}
@@ -41,7 +101,7 @@ const MapPage: React.FC = () => {
             anchor="center"
             onClick={e => { 
               e.originalEvent.stopPropagation(); 
-              setSelectedFalla(falla); 
+              setSelectedFalla(falla);
             }}
           >
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-accent shadow-lg border-2 border-background cursor-pointer hover:scale-110 transition-transform">
@@ -73,7 +133,7 @@ const MapPage: React.FC = () => {
           )}
           {showSuggestions && suggestions.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-card/95 backdrop-blur-sm rounded-xl shadow-lg border border-border/50 overflow-hidden">
-              {suggestions.map(s => (
+              {suggestions.map((s: Falla) => (
                 <button
                   key={s.id}
                   className="w-full text-left px-3 py-2.5 hover:bg-accent/50 transition-colors flex items-center gap-2 border-b last:border-b-0 border-border/30"
@@ -82,6 +142,12 @@ const MapPage: React.FC = () => {
                     setSearchQuery(s.name);
                     setShowSuggestions(false);
                     setSelectedFalla(s);
+                    setViewState(prev => ({
+                      ...prev,
+                      latitude: s.lat,
+                      longitude: s.lng,
+                      zoom: 16
+                    }));
                   }}
                 >
                   <Star className="w-3.5 h-3.5 text-accent shrink-0" />
@@ -102,6 +168,7 @@ const MapPage: React.FC = () => {
           size="icon"
           variant="secondary"
           className="w-11 h-11 rounded-xl shadow-lg bg-card/95 backdrop-blur-sm border border-border/50 hover:bg-primary hover:text-primary-foreground transition-colors"
+          onClick={() => setFilterOpen(true)}
         >
           <SlidersHorizontal className="w-5 h-5" />
         </Button>
@@ -109,6 +176,7 @@ const MapPage: React.FC = () => {
           size="icon"
           variant="secondary"
           className="w-11 h-11 rounded-xl shadow-lg bg-card/95 backdrop-blur-sm border border-border/50 hover:bg-primary hover:text-primary-foreground transition-colors"
+          onClick={() => setCalendarOpen(true)}
         >
           <CalendarDays className="w-5 h-5" />
         </Button>
@@ -116,10 +184,38 @@ const MapPage: React.FC = () => {
           size="icon"
           variant="secondary"
           className="w-11 h-11 rounded-xl shadow-lg bg-card/95 backdrop-blur-sm border border-border/50 hover:bg-primary hover:text-primary-foreground transition-colors"
+          onClick={() => setRouteOpen(true)}
         >
           <RouteIcon className="w-5 h-5" />
         </Button>
       </div>
+
+      {/* Bottom Sheets */}
+      <FallaDetailSheet 
+        falla={selectedFalla} 
+        onClose={() => setSelectedFalla(null)}
+        onAddToRoute={handleAddToRoute}
+      />
+      
+      <CalendarSheet 
+        open={calendarOpen} 
+        onOpenChange={setCalendarOpen}
+      />
+      
+      <MyRouteSheet 
+        open={routeOpen}
+        onOpenChange={setRouteOpen}
+        route={route}
+        onRemoveFromRoute={handleRemoveFromRoute}
+        onClearRoute={handleClearRoute}
+        onOptimizeRoute={handleOptimizeRoute}
+      />
+      
+      <FilterSheet 
+        open={filterOpen}
+        onOpenChange={setFilterOpen}
+        onApplyFilters={setFilters}
+      />
     </div>
   );
 };
