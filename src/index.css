@@ -1,0 +1,85 @@
+@import "https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap');
+
+@layer base {
+  :root {
+    --background: 40 30% 97%;
+    --foreground: 25 30% 12%;
+    --card: 40 25% 99%;
+    --card-foreground: 25 30% 12%;
+    --popover: 40 25% 99%;
+    --popover-foreground: 25 30% 12%;
+    --primary: 18 85% 55%;
+    --primary-foreground: 40 30% 98%;
+    --secondary: 40 25% 92%;
+    --secondary-foreground: 25 30% 18%;
+    --muted: 35 18% 93%;
+    --muted-foreground: 25 10% 48%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 25 30% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 18 85% 55%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 25 20% 8%;
+    --foreground: 40 20% 95%;
+    --card: 25 20% 10%;
+    --card-foreground: 40 20% 95%;
+    --popover: 25 20% 10%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 18 85% 55%;
+    --primary-foreground: 40 30% 98%;
+    --secondary: 25 15% 18%;
+    --secondary-foreground: 40 20% 95%;
+    --muted: 25 15% 18%;
+    --muted-foreground: 35 10% 60%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 25 30% 12%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 25 15% 20%;
+    --input: 25 15% 20%;
+    --ring: 18 85% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+.mapboxgl-ctrl-attrib, .mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+[data-vaul-drawer] [data-vaul-handle] {
+  background: hsl(var(--muted-foreground) / 0.3);
+}
